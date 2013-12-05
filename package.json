@@ -1,0 +1,28 @@
+{
+  "name": "gulp-marked",
+  "version": "0.1.0",
+  "description": "Convert markdown to html with marked.",
+  "keywords": [
+    "gulpplugin"
+  ],
+  "homepage": "https://github.com/lmtm/gulp-marked",
+  "bugs": "https://github.com/lmtm/gulp-marked/issues",
+  "author": "Thomas Moyse <tmoyse@gmail.com>",
+  "dependencies": {
+    "event-stream": "~3.0.15",
+    "marked": "~0.2.10"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "gulp": "~2.6.0",
+    "mocha": "~1.15.1",
+    "chai": "~1.8.1"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ]
+}
