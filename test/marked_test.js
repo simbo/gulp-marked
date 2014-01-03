@@ -34,7 +34,7 @@ describe('gulp-marked markdown conversion', function() {
 
 describe('gulp-marked markdown conversion', function() {
 
-  describe('gulp-marked', function() {
+  describe('in stream mode', function() {
 
     it('should convert my files', function(done) {
       var filename = path.join(__dirname, './fixtures/data.md');
