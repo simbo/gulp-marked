@@ -10,11 +10,13 @@
 </tr>
 <tr>
 <td>Node Version</td>
-<td>≥ 0.6</td>
+<td>≥ 0.10</td>
 </tr>
 </table>
 
 ## Usage
+
+In a Gulp task:
 
 ```javascript
 var marked = require('gulp-marked');
@@ -26,6 +28,17 @@ gulp.task('convert', function() {
     }))
     .pipe(gulp.folder('./html/'))
 });
+```
+
+In your own Gulp plugin:
+```js
+var markedTransform = require('gulp-marked').fileTransform;
+
+file.contents = file.contents.pipe(markerTransform(options));
+
+// Then pipe you own contents in
+
+
 ```
 
 ## LICENSE
