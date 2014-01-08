@@ -22,11 +22,11 @@ In a Gulp task:
 var marked = require('gulp-marked');
 
 gulp.task('convert', function() {
-  gulp.files('./src/*.md')
+  gulp.src('./src/*.md')
     .pipe(marked({
     	// optional : marked options
     }))
-    .pipe(gulp.folder('./html/'))
+    .pipe(gulp.dest('./html/'))
 });
 ```
 
