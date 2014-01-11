@@ -31,7 +31,6 @@ function gulpMarked(opt) {
   marked.setOptions(opt || {});
 
   return es.map(function (file, callback) {
-  console.log(file);
     // Buffers
     if(file.isBuffer()) {
       marked(String(file.contents), function (err, content) {
