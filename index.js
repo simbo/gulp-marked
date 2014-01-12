@@ -1,6 +1,10 @@
-var es = require('event-stream');
-var marked = require('marked');
-var BufferStreams = require('bufferstreams');
+var Stream = require('stream')
+  , marked = require('marked')
+  , gutil = require('gulp-util')
+  , BufferStreams = require('bufferstreams')
+;
+
+const PLUGIN_NAME = 'gulp-marked';
 
 // File level transform function
 function fileMarked(opt) {
@@ -15,11 +19,12 @@ function fileMarked(opt) {
 
       // Report any error with the callback
       if (err) {
-        cb(err);
+        cb(new gutil.PluginError(PLUGIN_NAME, err, {showStack: true}));
       // Give the transformed buffer back
       } else {
         cb(null, content);
       }
+
     });
 
   };
@@ -30,20 +35,34 @@ function gulpMarked(opt) {
 
   marked.setOptions(opt || {});
 
-  return es.map(function (file, callback) {
-  console.log(file);
+  var stream = Stream.Transform({objectMode: true});
+  
+  stream._transform = function(file, unused, done) {
+     // Do nothing when null
+    if(file.isNull()) {
+      this.push(file); done();
+      return;
+    }
+
     // Buffers
     if(file.isBuffer()) {
       marked(String(file.contents), function (err, content) {
-        if (!err) file.contents = Buffer(content);
-        callback(err, file);
+        if(err) {
+          stream.emit('error',
+            new gutil.PluginError(PLUGIN_NAME, err, {showStack: true}));
+          return done();
+        }
+        file.contents = Buffer(content);
       });
     // Streams
     } else {
       file.contents = file.contents.pipe(new BufferStreams(fileMarked()));
-      callback(null, file);
     }
-  });
+    this.push(file);
+    done();
+  };
+
+  return stream;
 
 };
 
