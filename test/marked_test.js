@@ -5,7 +5,9 @@ var gulp = require('gulp'),
   marked = require('../'),
   markedjs = require('marked'),
   es = require('event-stream'),
+  Stream = require('stream'),
   fs = require('fs'),
+  gutil = require('gulp-util'),
   path = require('path');
 
 describe('gulp-marked markdown conversion', function() {
@@ -16,7 +18,7 @@ describe('gulp-marked markdown conversion', function() {
       var filename = path.join(__dirname, './fixtures/data.md');
       var markdown = fs.readFileSync(filename, { encoding: 'utf8' });
 
-        gulp.src(filename)
+        gulp.src(filename, {buffer: true})
           .pipe(marked())
           .pipe(es.map(function(file) {
             expect(path.extname(file.path)).to.equal('.html');
@@ -25,6 +27,26 @@ describe('gulp-marked markdown conversion', function() {
               done();
             });
           }));
+
+    });
+
+    it('should let non-md files pass through', function(done) {
+
+        var s = marked()
+          , n = 0;
+        s.pipe(es.through(function(file) {
+            expect(file.path).to.equal('bibabelula.foo');
+            expect(file.contents.toString('utf-8')).to.equal('ohyeah');
+            n++;
+          }, function() {
+            expect(n).to.equal(1);
+            done();
+          }));
+        s.write(new gutil.File({
+          path: 'bibabelula.foo',
+          contents: new Buffer('ohyeah')
+        }));
+        s.end();
 
     });
 
@@ -53,6 +75,26 @@ describe('gulp-marked markdown conversion', function() {
               });
             }));
           }));
+
+    });
+
+    it('should let non-md files pass through', function(done) {
+
+        var s = marked()
+          , n = 0;
+        s.pipe(es.through(function(file) {
+            expect(file.path).to.equal('bibabelula.foo');
+            expect(file.contents instanceof Stream.PassThrough);
+            n++;
+          }, function() {
+            expect(n).to.equal(1);
+            done();
+          }));
+        s.write(new gutil.File({
+          path: 'bibabelula.foo',
+          contents: new Stream.PassThrough()
+        }));
+        s.end();
 
     });
 

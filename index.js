@@ -1,6 +1,7 @@
 var Stream = require('stream')
   , marked = require('marked')
   , gutil = require('gulp-util')
+  , path = require('path')
   , BufferStreams = require('bufferstreams')
 ;
 
@@ -36,11 +37,17 @@ function gulpMarked(opt) {
   marked.setOptions(opt || {});
 
   var stream = Stream.Transform({objectMode: true});
-  
+
   stream._transform = function(file, unused, done) {
      // Do nothing when null
     if(file.isNull()) {
-      this.push(file); done();
+      stream.push(file); done();
+      return;
+    }
+
+    // If the ext doesn't match, pass it through
+    if('.md' !== path.extname(file.path)) {
+      stream.push(file); done();
       return;
     }
 
@@ -55,13 +62,15 @@ function gulpMarked(opt) {
           return done();
         }
         file.contents = Buffer(content);
+        stream.push(file);
+        done();
       });
     // Streams
     } else {
       file.contents = file.contents.pipe(new BufferStreams(fileMarked()));
+      stream.push(file);
+      done();
     }
-    this.push(file);
-    done();
   };
 
   return stream;
