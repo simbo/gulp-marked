@@ -19,6 +19,7 @@ describe('gulp-marked markdown conversion', function() {
         gulp.src(filename)
           .pipe(marked())
           .pipe(es.map(function(file) {
+            expect(path.extname(file.path)).to.equal('.html');
             markedjs(markdown, function (err, content) {
               expect(String(file.contents)).to.equal(content);
               done();
@@ -43,6 +44,7 @@ describe('gulp-marked markdown conversion', function() {
         gulp.src(filename, {buffer: false})
           .pipe(marked())
           .pipe(es.map(function(file) {
+            expect(path.extname(file.path)).to.equal('.html');
             // Get the buffer to compare results
             file.contents.pipe(es.wait(function(err, data) {
               markedjs(markdown, function (err, content) {

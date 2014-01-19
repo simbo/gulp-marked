@@ -44,6 +44,8 @@ function gulpMarked(opt) {
       return;
     }
 
+    file.path = gutil.replaceExtension(file.path, ".html");
+
     // Buffers
     if(file.isBuffer()) {
       marked(String(file.contents), function (err, content) {
