@@ -9,9 +9,9 @@
   "bugs": "https://github.com/lmtm/gulp-marked/issues",
   "author": "Thomas Moyse <tmoyse@gmail.com>",
   "dependencies": {
-    "event-stream": "~3.0.15",
     "marked": "~0.2.10",
-    "bufferstreams": "0.0.1"
+    "bufferstreams": "0.0.1",
+    "gulp-util": "~2.2.9"
   },
   "scripts": {
     "test": "mocha"
@@ -19,7 +19,8 @@
   "devDependencies": {
     "gulp": "~3.2.2",
     "mocha": "~1.15.1",
-    "chai": "~1.8.1"
+    "chai": "~1.8.1",
+    "event-stream": "~3.0.15"
   },
   "licenses": [
     {
