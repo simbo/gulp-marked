@@ -9,9 +9,10 @@
   "bugs": "https://github.com/lmtm/gulp-marked/issues",
   "author": "Thomas Moyse <tmoyse@gmail.com>",
   "dependencies": {
-    "marked": "~0.2.10",
+    "marked": "~0.3.2",
     "bufferstreams": "0.0.1",
-    "gulp-util": "~2.2.9"
+    "gulp-util": "~2.2.9",
+    "lodash": "^2.4.1"
   },
   "scripts": {
     "test": "mocha"
