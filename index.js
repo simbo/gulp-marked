@@ -3,6 +3,7 @@ var Stream = require('stream')
   , gutil = require('gulp-util')
   , path = require('path')
   , BufferStreams = require('bufferstreams')
+  , _ = require('lodash')
 ;
 
 const PLUGIN_NAME = 'gulp-marked';
@@ -14,6 +15,11 @@ function fileMarked(opt) {
 
     // Handle any error
     if(err) throw err;
+
+    // Create a new Renderer object
+    if (opt) {
+      opt.renderer = _.extend(new marked.Renderer(), opt.renderer)
+    }
 
     // Use the buffered content
     marked(String(buf), opt, function (err, content) {
@@ -33,7 +39,10 @@ function fileMarked(opt) {
 
 // Plugin function
 function gulpMarked(opt) {
-
+  // Create a new Renderer object
+  if (opt) {
+    opt.renderer = _.extend(new marked.Renderer(), opt.renderer)
+  }
   marked.setOptions(opt || {});
 
   var stream = Stream.Transform({objectMode: true});

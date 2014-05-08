@@ -50,6 +50,31 @@ describe('gulp-marked markdown conversion', function() {
 
     });
 
+    it('should convert using a renderer', function(done) {
+      var filename = path.join(__dirname, './fixtures/data.md');
+      var markdown = fs.readFileSync(filename, { encoding: 'utf8' });
+      var headingFunc = function (txt, lvl) {
+        return '<h'+ lvl +' class="test">'+ txt +'</h'+ lvl +'>\n';
+      }
+      var renderer = { heading: headingFunc }
+
+        gulp.src(filename, {buffer: true})
+          .pipe(marked({ renderer: renderer }))
+          .pipe(es.map(function(file) {
+            expect(path.extname(file.path)).to.equal('.html');
+            var mRenderer = new markedjs.Renderer()
+            mRenderer.heading = headingFunc
+            markedjs(markdown, {renderer: mRenderer }, function (err, content) {            
+              expect(String(file.contents)).to.equal(content);
+                markedjs(markdown, {renderer: new markedjs.Renderer() }, function (err, regContent) {
+                  expect(String(file.contents)).to.not.equal(regContent);
+                  done();
+                });    
+            });
+          }));
+
+    });  
+
   });
 
 });
@@ -97,6 +122,35 @@ describe('gulp-marked markdown conversion', function() {
         s.end();
 
     });
+
+    it('should convert using a renderer', function(done) {
+      var filename = path.join(__dirname, './fixtures/data.md');
+      var markdown = fs.readFileSync(filename, { encoding: 'utf8' });
+      var headingFunc = function (txt, lvl) {
+        return '<h'+ lvl +' class="test">'+ txt +'</h'+ lvl +'>\n';
+      }
+      var renderer = { heading: headingFunc }
+
+        gulp.src(filename, {buffer: false})
+          .pipe(marked({ renderer: renderer }))
+          .pipe(es.map(function(file) {
+            expect(path.extname(file.path)).to.equal('.html');
+            // Get the buffer to compare results
+            file.contents.pipe(es.wait(function(err, data) {
+              var mRenderer = new markedjs.Renderer()
+              mRenderer.heading = headingFunc
+              markedjs(markdown, {renderer: mRenderer }, function (err, content) {
+                expect(data).to.equal(content);
+                markedjs(markdown, {renderer: new markedjs.Renderer() }, function (err, regContent) {
+                  expect(data).to.not.equal(regContent);
+                  done();
+                });                  
+              });
+            }));
+          }));
+
+    });
+
 
   });
 
