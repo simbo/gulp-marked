@@ -55,7 +55,8 @@ function gulpMarked(opt) {
     }
 
     // If the ext doesn't match, pass it through
-    if('.md' !== path.extname(file.path)) {
+    var ext = path.extname(file.path);
+    if('.md' !== ext && '.markdown' !== ext) {
       stream.push(file); done();
       return;
     }
