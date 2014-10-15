@@ -50,6 +50,27 @@ describe('gulp-marked markdown conversion', function() {
 
     });
 
+    it('should convert .markdown files', function(done) {
+
+        var s = marked()
+          , n = 0;
+        s.pipe(es.through(function(file) {
+            expect(file.path).to.equal('bibabelula.html');
+            expect(file.contents.toString('utf-8')).to
+                .equal("<h2 id=\"ohyeah\">ohyeah</h2>\n");
+            n++;
+          }, function() {
+            expect(n).to.equal(1);
+            done();
+          }));
+        s.write(new gutil.File({
+          path: 'bibabelula.markdown',
+          contents: new Buffer('## ohyeah')
+        }));
+        s.end();
+
+    });
+
     it('should convert using a renderer', function(done) {
       var filename = path.join(__dirname, './fixtures/data.md');
       var markdown = fs.readFileSync(filename, { encoding: 'utf8' });
