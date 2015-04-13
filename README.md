@@ -34,7 +34,7 @@ In your own Gulp plugin:
 ```js
 var markedTransform = require('gulp-marked').fileTransform;
 
-file.contents = file.contents.pipe(markerTransform(options));
+file.contents = file.contents.pipe(markedTransform(options));
 
 // Then pipe you own contents in
 
