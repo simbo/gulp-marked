@@ -71,6 +71,9 @@ function gulpMarked(opt) {
             new gutil.PluginError(PLUGIN_NAME, err, {showStack: true}));
           return done();
         }
+        else if (cb) {
+          content = cb(err, content);
+        }
         file.contents = Buffer(content);
         stream.push(file);
         done();
