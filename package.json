@@ -8,6 +8,7 @@
   "homepage": "https://github.com/lmtm/gulp-marked",
   "bugs": "https://github.com/lmtm/gulp-marked/issues",
   "author": "Thomas Moyse <tmoyse@gmail.com>",
+  "repository": "lmtm/gulp-marked",
   "dependencies": {
     "marked": "~0.3.2",
     "bufferstreams": "0.0.1",
