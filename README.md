@@ -1,3 +1,11 @@
+gulp-marked
+===========
+
+  > **DEPRECATED**  
+  > Please use [gulp-markdown](https://www.npmjs.com/package/gulp-markdown).
+
+---
+
 ## Information
 
 <table>
