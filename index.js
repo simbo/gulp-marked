@@ -18,7 +18,7 @@ function fileMarked(opt) {
 
     // Create a new Renderer object
     if (opt) {
-      opt.renderer = _.extend(new marked.Renderer(), opt.renderer)
+      opt.renderer = _.extend(opt.renderer, new marked.Renderer())
     }
 
     // Use the buffered content
@@ -41,7 +41,7 @@ function fileMarked(opt) {
 function gulpMarked(opt) {
   // Create a new Renderer object
   if (opt) {
-    opt.renderer = _.extend(new marked.Renderer(), opt.renderer)
+    opt.renderer = _.extend(opt.renderer, new marked.Renderer())
   }
   marked.setOptions(opt || {});
 
